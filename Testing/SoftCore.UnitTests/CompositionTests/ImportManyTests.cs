@@ -14,7 +14,8 @@ namespace SoftCore.UnitTests.CompositionTests
         {
             TypeCatalog catalog = new TypeCatalog(
                 typeof(ImportA),
-                typeof(ExportA));
+                typeof(ExportA),
+                typeof(ExportB));
 
             CompositeApplication compositeApplication = new CompositeApplication(catalog);
             ImportA importA = compositeApplication.GetExportedValue<ImportA>();

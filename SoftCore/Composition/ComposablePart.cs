@@ -34,7 +34,7 @@ namespace SoftCore.Composition
             // Create lifetime manager
             NotSharedAttribute notSharedAttribute = partType.GetCustomAttribute<NotSharedAttribute>();
             LifetimeManager = notSharedAttribute != null
-                ? ((LifetimeManager)new NonSharedLifetimeManager(partType))
+                ? ((LifetimeManager)new NotSharedLifetimeManager(partType))
                 : ((LifetimeManager)new SharedLifetimeManager(partType));
         }
         public ComposablePart(Type partType, LifetimeManager lifetimeManager)

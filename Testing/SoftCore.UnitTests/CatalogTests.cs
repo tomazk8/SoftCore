@@ -86,11 +86,9 @@ namespace SoftCore.Tests.CatalogTesting
         }*/
     }
 
-    [Export]
     public class ClassA
     {
     }
-    [Export]
     public class ClassB
     {
     }

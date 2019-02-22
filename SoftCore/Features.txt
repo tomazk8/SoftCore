@@ -16,4 +16,29 @@ Pre runtime checks (Exports found for imports, UI WPF controls must not be share
 .NET standard
 
 TODO:
+- Areas
+	- Mabe run in isolation (AppDomain or Process)
 - Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
+- Licensing. LicencedExport attribute, with GUID maybe.
+- Cyclic import check
+- Activity recording
+- Make automatic unit tests based on recorded data
+- Testing
+	- ReplacementPart
+	- ImportOriginal from replacement export
+- Performance profiling
+	- Measure part processing time
+	- Measure part init time
+- Statistics
+	- Call event when part is taken from catalog
+	- Call event when part init starts and when it ends
+- Interface bridging
+- Other lifestyles
+	- Context (Web request, thread,...)
+- Auto multi threading and horizontal scaling or parts. Makes copies, one per Thread.
+- Backgroung part creaation - singletons only. Creates parts before they are used.
+- Disposable parts?
+- Manual wiring
+- Shutdown event - parts can do cleanup when application or area is shut down.
+- Export all types in an inheritance tree along with all implemented interfaces
+- Limit added features only to some customers. This would be to test new functionality at limited customers.
