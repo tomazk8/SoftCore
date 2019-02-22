@@ -1,0 +1,11 @@
+/.vs/SoftCore/v15
+/SoftCore.Interception/obj
+/SoftCore.Security/obj
+/SoftCore.Testing/obj
+/SoftCore/obj
+/Testing/SoftCore.UnitTests/obj
+/SoftCore/bin
+/SoftCore.Interception/bin
+/SoftCore.Security/bin
+/SoftCore.Testing/bin
+/Testing/SoftCore.UnitTests/bin

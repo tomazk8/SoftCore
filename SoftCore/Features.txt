@@ -1,0 +1,19 @@
+﻿IoC
+Attribute-based part (class) registration over field only (Export, Import, ImprotMany), string contracts can be customized
+Lifetime (Shared, NonShared, custom)
+Lazy resolving
+ExportFactory
+Catalogs (Application, Assembly, Type, Aggregate, ExplicitInstance, Filter)
+Replacement export - for testing
+Floating parts - using special attribute
+IEntryPoint
+Constructor parameter injection - only over ExportFactory
+AOP - interception on interfaces using proxy (Access control, logging/recording)
+ImportExternal - using ExternalPartProvider
+Export structure for diagram
+Load-time measurement
+Pre runtime checks (Exports found for imports, UI WPF controls must not be shared, check referenced assemblies (TODO), ExportFactory only used on NotShared parts, parts must have only one constructor - parametered only when used in ExportFactory)
+.NET standard
+
+TODO:
+- Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
