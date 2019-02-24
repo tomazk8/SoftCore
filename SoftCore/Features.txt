@@ -17,7 +17,7 @@ Pre runtime checks (Exports found for imports, UI WPF controls must not be share
 
 TODO:
 - Areas
-	- Mabe run in isolation (AppDomain or Process)
+	- Maybe run in isolation (AppDomain or Process)
 - Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
 - Licensing. LicencedExport attribute, with GUID maybe.
 - Cyclic import check
