@@ -68,5 +68,18 @@ namespace SoftCore
         {
             container.SatisfyImportsOnInstance(instance);
         }
+
+        public event EventHandler<SatisfyingImportEventArgs> SatisfyingImport
+        {
+            add
+            {
+                container.SatisfyingImport += value;
+            }
+            remove
+            {
+                container.SatisfyingImport -= value;
+            }
+        }
+        public event EventHandler<PreRunCheckingEventArgs> PreRunChecking;
     }
 }

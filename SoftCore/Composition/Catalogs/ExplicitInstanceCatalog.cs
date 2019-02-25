@@ -20,7 +20,13 @@ namespace SoftCore.Composition
         public ExplicitInstanceCatalog(params ExplicitInstance[] explicitInstances)
         {
             parts = explicitInstances
-                .Select(x => new ComposablePart(x.InstanceType, new ExplicitInstanceLifetimeManager(x.Instance)))
+                .Select(x =>
+                {
+                    var exports = new ComposablePartExport[] { new ComposablePartExport(CompositionTools.GetContractNameFromType(x.InstanceType)) };
+                    var imports = CompositionTools.GetImports(x.Instance.GetType());
+
+                    return new ComposablePart(x.InstanceType, exports, imports, new ExplicitInstanceLifetimeManager(x.Instance));
+                })
                 .ToArray();
         }
 

@@ -9,21 +9,6 @@ namespace SoftCore.UnitTests.CompositionTests
     public class ExportFactoryTests
     {
         [Test]
-        public void TestExportFactory()
-        {
-            TypeCatalog catalog = new TypeCatalog(
-                typeof(ExportA),
-                typeof(FactoryImporter));
-
-            CompositeApplication composer = new CompositeApplication(catalog);
-            FactoryImporter factoryImporter = composer.GetExportedValue<FactoryImporter>();
-
-            ExportA exportA = factoryImporter.ExportAFactory.CreateExport();
-
-            Assert.IsNotNull(exportA);
-        }
-
-        [Test]
         public void TestExportFactoryWithConstructorParameters()
         {
             TypeCatalog catalog = new TypeCatalog(

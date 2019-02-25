@@ -22,6 +22,8 @@ namespace SoftCore.Composition
 
             CheckCatalogParts();
 
+            PreRunChecking?.Invoke(this, new PreRunCheckingEventArgs(catalog));
+
             this.proxyFactory = proxyFactory;
 
             floatingExportManager = new FloatingExportManager(this);
@@ -131,6 +133,8 @@ namespace SoftCore.Composition
             // If import imports value using an interface, trigger an event that can handle proxy generation.
             if (import.FieldInfo.FieldType.IsInterface && proxyFactory != null)
                 value = proxyFactory.CreateProxy(import.FieldInfo.FieldType.GetTypeInfo(), () => instance);
+
+            //
 
             import.FieldInfo.SetValue(instance, value);
         }
@@ -315,10 +319,56 @@ namespace SoftCore.Composition
 
         public event EventHandler<PartCreationEventArgs> PartCreationStarted;
         public event EventHandler<PartCreationEventArgs> PartCreationEnded;
+        public event EventHandler<PreRunCheckingEventArgs> PreRunChecking;
+
+        private void InvokeSatisfyingImportEvent(FieldInfo fieldInfo, object instance)
+        {
+            foreach (var item in satisfyingImportInvocationList)
+            {
+                item(this, new SatisfyingImportEventArgs(fieldInfo) { Instance = instance });
+            }
+        }
+
+        private LinkedList<EventHandler<SatisfyingImportEventArgs>> satisfyingImportInvocationList =
+            new LinkedList<EventHandler<SatisfyingImportEventArgs>>();
+
+        public event EventHandler<SatisfyingImportEventArgs> SatisfyingImport
+        {
+            add
+            {
+                if (!satisfyingImportInvocationList.Contains(value))
+                    satisfyingImportInvocationList.AddLast(value);
+            }
+            remove
+            {
+                satisfyingImportInvocationList.Remove(value);
+            }
+        }
     }
 
-    public class PartCreationEventArgs
+    public class PartCreationEventArgs : EventArgs
     {
         public ComposablePart ComposablePart { get; set; }
+    }
+
+    public class SatisfyingImportEventArgs : EventArgs
+    {
+        public SatisfyingImportEventArgs(FieldInfo fieldInfo)
+        {
+            this.FieldInfo = fieldInfo;
+        }
+
+        public FieldInfo FieldInfo { get; private set; }
+        public object Instance { get; set; }
+    }
+
+    public class PreRunCheckingEventArgs : EventArgs
+    {
+        public PreRunCheckingEventArgs(Catalog catalog)
+        {
+            this.Catalog = catalog;
+        }
+
+        public Catalog Catalog { get; private set; }
     }
 }

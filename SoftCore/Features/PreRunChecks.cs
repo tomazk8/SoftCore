@@ -97,19 +97,27 @@ namespace SoftCore
                 if (part.PartType == typeof(CompositeApplication))
                     continue;
 
-                var count = part.PartType
-                    .GetConstructors()
-                    .Count();
+                // Private constructor is required only if part uses Shared or NotShared lifetime
+                // managers. If any other lifetime manager is used, having a private constructor
+                // doesn't make much sense.
+                // TODO: does any of these makes sense?
+                if (part.LifetimeManager is NotSharedLifetimeManager ||
+                    part.LifetimeManager is SharedLifetimeManager)
+                {
+                    var count = part.PartType
+                        .GetConstructors()
+                        .Count();
 
-                if (count > 1)
-                    throw new Exception($"Part {part.PartType.Name} has more than one constructor. Parts can have only one constructor that is private.");
+                    if (count > 1)
+                        throw new Exception($"Part {part.PartType.Name} has more than one constructor. Parts can have only one constructor that is private.");
 
-                var constructor = part.PartType
-                    .GetConstructors()
-                    .SingleOrDefault();
+                    var constructor = part.PartType
+                        .GetConstructors()
+                        .SingleOrDefault();
 
-                if (constructor != null && !constructor.IsPrivate)
-                    throw new Exception($"Constructor on part {part.PartType.Name} must be private.");
+                    if (constructor != null && !constructor.IsPrivate)
+                        throw new Exception($"Constructor on part {part.PartType.Name} must be private.");
+                }
             }
         }
     }
