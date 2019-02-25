@@ -8,15 +8,17 @@ namespace SoftCore.Composition
     public abstract class Catalog : IEnumerable<ComposablePart>
     {
         /// <summary>
-        /// Gets all of the parts in the catalog
+        /// This is not simply a list of parts in this catalog but it's a combination of parts here plus
+        /// all the parts in the sub-catalogs. Parts can also be filtered or replaced. Therefore this
+        /// property returns parts as they are on this level of the tree which is not simply a sum of
+        /// all parts. Imagine it as a map-reduce algorithm applied to all parts from sub-catalogs.
         /// </summary>
-        /// <returns></returns>
-        protected internal abstract IEnumerable<ComposablePart> Parts { get; }
+        public abstract IEnumerable<ComposablePart> Parts { get; }
 
         /// <summary>
         /// Gets parts that match the contract name.
         /// </summary>
-        protected internal abstract IEnumerable<ComposablePart> GetMatchingParts(string contractName);
+        public abstract IEnumerable<ComposablePart> GetMatchingParts(string contractName);
 
         protected bool ContractsMatch(string contract1, string contract2)
         {

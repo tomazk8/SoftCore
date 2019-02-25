@@ -6,35 +6,51 @@ using System.Text;
 
 namespace SoftCore.Testing
 {
-    public class ReplacementExportAttribute : ExportAttribute
+    /// <summary>
+    /// The class with this attribute will be put into the IoC container.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
+    public class ReplacementExportAttribute : Attribute
     {
-        public ReplacementExportAttribute(params string[] runningContext)
-            : base()
+        public ReplacementExportAttribute()
         {
-            //this.RunningContext = runningContext;
+            ContractNames = Array.Empty<string>();
         }
-        public ReplacementExportAttribute(Type contractType)
-            : base(contractType)
+        public ReplacementExportAttribute(params string[] contractNames)
         {
+            ContractNames = contractNames;
         }
-        public ReplacementExportAttribute(string contractName)
-            : base(contractName)
+        public ReplacementExportAttribute(params Type[] contractTypes)
         {
+            ContractNames = contractTypes
+                .Select(x => CompositionTools.GetContractNameFromType(x))
+                .ToArray();
         }
 
-        public bool IsReplacementExport
-        {
-            get { return true; }
-        }
+        public IEnumerable<string> ContractNames { get; internal set; }
     }
 
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-    public class ImportOriginalAttribute : ImportAttribute
+    /// <summary>
+    /// Value of the field that has this attribute will be set to the instance of the composable part
+    /// having export with the same contract.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+    public sealed class ImportOriginalAttribute : Attribute
     {
-        public bool IsImportOriginal
+        public ImportOriginalAttribute()
         {
-            get { return true; }
+            ContractName = null;
         }
+        public ImportOriginalAttribute(string contractName)
+        {
+            ContractName = contractName;
+        }
+        public ImportOriginalAttribute(Type type)
+        {
+            ContractName = CompositionTools.GetContractNameFromType(type);
+        }
+
+        public string ContractName { get; private set; }
     }
 
     public static class ReplacementExportFilter

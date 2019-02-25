@@ -14,7 +14,7 @@ namespace SoftCore.Composition
             this.catalogs = catalogs;
         }
 
-        protected internal override IEnumerable<ComposablePart> Parts
+        public override IEnumerable<ComposablePart> Parts
         {
             get
             {
@@ -29,7 +29,7 @@ namespace SoftCore.Composition
             }
         }
 
-        protected internal override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
+        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
         {
             var matchingParts = Parts.Where(x => x.Exports.Any(e => ContractsMatch(e.ContractName, contractName)));
             return matchingParts;

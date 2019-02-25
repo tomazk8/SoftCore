@@ -21,7 +21,6 @@ namespace SoftCore
     {
         private CompositionContainer container;
         private Catalog catalog;
-        private ModuleLoadTimeMeasurement moduleLoadTimeMeasurement;
 
         public CompositeApplication(Catalog compositeCatalog)
         {
@@ -37,8 +36,6 @@ namespace SoftCore
             this.container = new CompositionContainer(this.catalog);
 
             PreRunChecks.PerformChecks(container);
-
-            moduleLoadTimeMeasurement = new ModuleLoadTimeMeasurement(this.container);
         }
 
         public void Run()
@@ -81,5 +78,15 @@ namespace SoftCore
             }
         }
         public event EventHandler<PreRunCheckingEventArgs> PreRunChecking;
+        public event EventHandler<PartCreationEventArgs> PartCreationStarted
+        {
+            add { container.PartCreationStarted += value; }
+            remove { container.PartCreationStarted -= value; }
+        }
+        public event EventHandler<PartCreationEventArgs> PartCreationEnded
+        {
+            add { container.PartCreationEnded += value; }
+            remove { container.PartCreationEnded -= value; }
+        }
     }
 }

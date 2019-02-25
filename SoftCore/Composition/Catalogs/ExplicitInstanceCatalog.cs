@@ -30,9 +30,9 @@ namespace SoftCore.Composition
                 .ToArray();
         }
 
-        protected internal override IEnumerable<ComposablePart> Parts => parts;
+        public override IEnumerable<ComposablePart> Parts => parts;
 
-        protected internal override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
+        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
         {
             return parts.Where(x => x.Exports.Any(e => e.ContractName == contractName));
         }

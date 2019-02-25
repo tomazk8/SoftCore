@@ -81,12 +81,12 @@ namespace SoftCore.Composition
             }
         }
 
-        protected internal override IEnumerable<ComposablePart> Parts
+        public override IEnumerable<ComposablePart> Parts
         {
             get { return parts; }
         }
 
-        protected internal override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
+        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
         {
             var matchingParts = parts.Where(x => x.Exports.Any(e => ContractsMatch(e.ContractName, contractName)));
             return matchingParts;

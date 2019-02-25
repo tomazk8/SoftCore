@@ -16,9 +16,9 @@ namespace SoftCore.Composition
                 .ToArray();
         }
 
-        protected internal override IEnumerable<ComposablePart> Parts => filteredParts;
+        public override IEnumerable<ComposablePart> Parts => filteredParts;
 
-        protected internal override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
+        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
         {
             var matchingParts = filteredParts.Where(x => x.Exports.Any(e => ContractsMatch(e.ContractName, contractName)));
             return matchingParts;

@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SoftCore.Interception\SoftCore.Interception.csproj" />
+    <ProjectReference Include="..\SoftCore\SoftCore.csproj" />
+  </ItemGroup>
+
+</Project>

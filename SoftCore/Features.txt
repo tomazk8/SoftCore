@@ -9,9 +9,12 @@ Replacement export - for testing
 + Floating parts - using special attribute
 + IEntryPoint
 + Constructor parameter injection - only over ExportFactory
-AOP - interception on interfaces using proxy (Access control, logging/recording)
++ AOP (interception on interfaces using proxy)
+	Access control
+	logging
+	recording
 Export structure for diagram
-Load-time measurement
++ Load-time measurement
 Pre runtime checks
 	+ Exports found for imports
 	UI WPF controls must not be shared - not possible in WPF-independant version
@@ -19,7 +22,7 @@ Pre runtime checks
 	+ ExportFactory only used on NotShared parts
 	+ parts must have only one private constructor
 + .NET standard
-Areas - aka contexts
+Areas, (contexts)
 
 
 TODO:
@@ -35,14 +38,14 @@ TODO:
 	- ImportOriginal from replacement export
 - Performance profiling
 	- Measure part processing time
-	- Measure part init time
+	+ Measure part init time
 - Statistics
 	- Call event when part is taken from catalog
 	- Call event when part init starts and when it ends
 - Interface bridging
 - Other lifestyles
 	- Context (Web request, thread,...)
-- Auto multi threading and horizontal scaling or parts. Makes copies, one per Thread.
+- Auto multi threading and horizontal scaling or parts. Make copies, one per Thread. Do load balancing.
 - Backgroung part creaation - singletons only. Creates parts before they are used.
 - Disposable parts?
 - Manual wiring

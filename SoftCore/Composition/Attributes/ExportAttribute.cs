@@ -9,7 +9,7 @@ namespace SoftCore.Composition
     /// The class with this attribute will be put into the IoC container.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
-    public class ExportAttribute : Attribute
+    public sealed class ExportAttribute : Attribute
     {
         public ExportAttribute()
         {

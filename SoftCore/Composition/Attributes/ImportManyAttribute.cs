@@ -10,7 +10,7 @@ namespace SoftCore.Composition
     /// an export with the same contract defined in the import.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = true)]
-    public class ImportManyAttribute : Attribute
+    public sealed class ImportManyAttribute : Attribute
     {
         public ImportManyAttribute()
         {

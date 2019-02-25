@@ -1,0 +1,14 @@
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.InterfaceBridging.deps.json
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.InterfaceBridging.dll
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.InterfaceBridging.pdb
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.dll
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.Interception.dll
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.Interception.pdb
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.pdb
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.csprojAssemblyReference.cache
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.csproj.CoreCompileInputs.cache
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.AssemblyInfoInputs.cache
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.AssemblyInfo.cs
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.csproj.CopyComplete
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.dll
+D:\Tomaz\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.pdb
