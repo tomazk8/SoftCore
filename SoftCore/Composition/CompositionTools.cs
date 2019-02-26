@@ -10,7 +10,7 @@ namespace SoftCore.Composition
         /// <summary>
         /// Retrieves contract name from the given type.
         /// </summary>
-        public static string GetContractNameFromType(Type type)
+        public static Contract GetContractFromType(Type type)
         {
             // INFO: IEnumerable<> is not here, because IEnumerable<> itself is a contract type when
             // not importing a list.
@@ -23,20 +23,20 @@ namespace SoftCore.Composition
                     type = type.GenericTypeArguments.Single();
             }
 
-            return type.Namespace + "." + type.Name;
+            return new Contract(type.Namespace + "." + type.Name);
         }
 
         /// <summary>
         /// Retrieves contract name from the given list type.
         /// </summary>
-        public static string GetContractNameFromListType(Type type)
+        public static Contract GetContractFromListType(Type type)
         {
             if (type.IsGenericType &&
                 type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
             {
                 type = type.GenericTypeArguments.Single();
 
-                return type.Namespace + "." + type.Name;
+                return new Contract(type.Namespace + "." + type.Name);
             }
             else
                 return null;
@@ -63,21 +63,21 @@ namespace SoftCore.Composition
             if (attribute != null)
             {
                 // Get exported contracts from attribute
-                var contractNames = attribute.ContractNames.Any() ?
-                        attribute.ContractNames :
-                        new string[] { CompositionTools.GetContractNameFromType(attributeOwnerType) };
+                var contracts = attribute.Contracts.Any() ?
+                        attribute.Contracts :
+                        new Contract[] { CompositionTools.GetContractFromType(attributeOwnerType) };
 
-                foreach (var contractName in contractNames)
+                foreach (var contract in contracts)
                 {
-                    if (!list.Any(x => x.ContractName == contractName))
-                        list.Add(new ComposablePartExport(contractName));
+                    if (!list.Any(x => x.Contract == contract))
+                        list.Add(new ComposablePartExport(contract));
                 }
 
                 // If there are no contracts in attribute, use the type name as a contract.
                 if (!list.Any())
                 {
-                    string contractName = CompositionTools.GetContractNameFromType(attributeOwnerType);
-                    list.Add(new ComposablePartExport(contractName));
+                    Contract contract = CompositionTools.GetContractFromType(attributeOwnerType);
+                    list.Add(new ComposablePartExport(contract));
                 }
             }
 

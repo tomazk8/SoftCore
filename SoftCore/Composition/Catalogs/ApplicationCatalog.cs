@@ -85,11 +85,5 @@ namespace SoftCore.Composition
         {
             get { return parts; }
         }
-
-        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
-        {
-            var matchingParts = parts.Where(x => x.Exports.Any(e => ContractsMatch(e.ContractName, contractName)));
-            return matchingParts;
-        }
     }
 }

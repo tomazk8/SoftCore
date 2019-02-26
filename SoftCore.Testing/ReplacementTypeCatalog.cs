@@ -15,8 +15,8 @@ namespace SoftCore.Testing
     public class ReplacementTypeCatalog : Catalog
     {
         private Catalog baseCatalog;
-        private List<ComposablePart> parts = new List<ComposablePart>();
-        private Dictionary<string, List<ComposablePart>> replacementParts = new Dictionary<string, List<ComposablePart>>();
+        private List<ComposablePart> replacementParts = new List<ComposablePart>();
+        private List<ComposablePart> allParts = new List<ComposablePart>();
 
         public ReplacementTypeCatalog(Catalog baseCatalog, params Type[] types)
         {
@@ -30,37 +30,20 @@ namespace SoftCore.Testing
                 var imports = CompositionTools.GetImports(type);
 
                 ComposablePart replacementPart = new ComposablePart(type, replacementExports, imports, new SharedLifetimeManager(type));
-                parts.Add(replacementPart);
+                replacementParts.Add(replacementPart);
+            }
 
-                foreach (var replacementExport in replacementExports)
-                {
-                    List<ComposablePart> list;
-
-                    if (!replacementParts.TryGetValue(replacementExport.ContractName, out list))
-                    {
-                        list = new List<ComposablePart>();
-                        replacementParts.Add(replacementExport.ContractName, list);
-                    }
-
-                    list.Add(replacementPart);
-                }
+            foreach (var part in baseCatalog)
+            {
+                var list = replacementParts.Where(
             }
         }
 
         public override IEnumerable<ComposablePart> Parts => throw new NotImplementedException();
 
-        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
+        private IEnumerable<> (ComposablePart part1, ComposablePart part2)
         {
-            if (replacementParts.TryGetValue(contractName, out List<ComposablePart> list))
-            {
-                return list;
-            }
-            else
-            {
-                var matchingParts = baseCatalog
-                    .GetMatchingParts(contractName);
-                return matchingParts;
-            }
+            return part1.Exports.Any(x => part2.Exports.Any(y => y.Contract == x.Contract));
         }
 
         // TODO: the method is copy pasted from SoftCore code. Try to find a way to share the same
@@ -86,21 +69,21 @@ namespace SoftCore.Testing
             if (attribute != null)
             {
                 // Get exported contracts from attribute
-                var contractNames = attribute.ContractNames.Any() ?
-                        attribute.ContractNames :
-                        new string[] { CompositionTools.GetContractNameFromType(attributeOwnerType) };
+                var contracts = attribute.Contracts.Any() ?
+                        attribute.Contracts :
+                        new Contract[] { CompositionTools.GetContractFromType(attributeOwnerType) };
 
-                foreach (var contractName in contractNames)
+                foreach (var contract in contracts)
                 {
-                    if (!list.Any(x => x.ContractName == contractName))
-                        list.Add(new ComposablePartExport(contractName));
+                    if (!list.Any(x => x.Contract == contract))
+                        list.Add(new ComposablePartExport(contract));
                 }
 
                 // If there are no contracts in attribute, use the type name as a contract.
                 if (!list.Any())
                 {
-                    string contractName = CompositionTools.GetContractNameFromType(attributeOwnerType);
-                    list.Add(new ComposablePartExport(contractName));
+                    Contract contract = CompositionTools.GetContractFromType(attributeOwnerType);
+                    list.Add(new ComposablePartExport(contract));
                 }
             }
 

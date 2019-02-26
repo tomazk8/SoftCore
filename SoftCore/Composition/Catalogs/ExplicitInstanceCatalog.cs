@@ -31,11 +31,6 @@ namespace SoftCore.Composition
         }
 
         public override IEnumerable<ComposablePart> Parts => parts;
-
-        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
-        {
-            return parts.Where(x => x.Exports.Any(e => e.ContractName == contractName));
-        }
     }
     public class ExplicitInstance
     {

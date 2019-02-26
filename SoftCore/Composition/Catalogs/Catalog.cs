@@ -15,16 +15,6 @@ namespace SoftCore.Composition
         /// </summary>
         public abstract IEnumerable<ComposablePart> Parts { get; }
 
-        /// <summary>
-        /// Gets parts that match the contract name.
-        /// </summary>
-        public abstract IEnumerable<ComposablePart> GetMatchingParts(string contractName);
-
-        protected bool ContractsMatch(string contract1, string contract2)
-        {
-            return contract1 == contract2;
-        }
-
         public IEnumerator<ComposablePart> GetEnumerator()
         {
             return Parts.GetEnumerator();

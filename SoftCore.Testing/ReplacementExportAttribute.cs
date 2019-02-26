@@ -14,20 +14,20 @@ namespace SoftCore.Testing
     {
         public ReplacementExportAttribute()
         {
-            ContractNames = Array.Empty<string>();
+            Contracts = Array.Empty<Contract>();
         }
         public ReplacementExportAttribute(params string[] contractNames)
         {
-            ContractNames = contractNames;
+            Contracts = contractNames.Select(x => new Contract(x));
         }
         public ReplacementExportAttribute(params Type[] contractTypes)
         {
-            ContractNames = contractTypes
-                .Select(x => CompositionTools.GetContractNameFromType(x))
+            Contracts = contractTypes
+                .Select(x => CompositionTools.GetContractFromType(x))
                 .ToArray();
         }
 
-        public IEnumerable<string> ContractNames { get; internal set; }
+        public IEnumerable<Contract> Contracts { get; internal set; }
     }
 
     /// <summary>
@@ -39,18 +39,18 @@ namespace SoftCore.Testing
     {
         public ImportOriginalAttribute()
         {
-            ContractName = null;
+            Contract = null;
         }
-        public ImportOriginalAttribute(string contractName)
+        public ImportOriginalAttribute(string contract)
         {
-            ContractName = contractName;
+            Contract = new Contract(contract);
         }
         public ImportOriginalAttribute(Type type)
         {
-            ContractName = CompositionTools.GetContractNameFromType(type);
+            Contract = CompositionTools.GetContractFromType(type);
         }
 
-        public string ContractName { get; private set; }
+        public Contract Contract { get; private set; }
     }
 
     public static class ReplacementExportFilter

@@ -13,19 +13,19 @@ namespace SoftCore.Composition
     {
         public ExportAttribute()
         {
-            ContractNames = Array.Empty<string>();
+            Contracts = Array.Empty<Contract>();
         }
         public ExportAttribute(params string[] contractNames)
         {
-            ContractNames = contractNames;
+            Contracts = contractNames.Select(x => new Contract(x));
         }
         public ExportAttribute(params Type[] contractTypes)
         {
-            ContractNames = contractTypes
-                .Select(x => CompositionTools.GetContractNameFromType(x))
+            Contracts = contractTypes
+                .Select(x => CompositionTools.GetContractFromType(x))
                 .ToArray();
         }
 
-        public IEnumerable<string> ContractNames { get; internal set; }
+        public IEnumerable<Contract> Contracts { get; internal set; }
     }
 }

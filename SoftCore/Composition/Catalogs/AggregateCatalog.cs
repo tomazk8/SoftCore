@@ -18,21 +18,9 @@ namespace SoftCore.Composition
         {
             get
             {
-                IEnumerable<ComposablePart> list = Array.Empty<ComposablePart>();
-
-                foreach (var catalog in catalogs)
-                {
-                    list = list.Concat(catalog.Parts);
-                }
-
+                IEnumerable<ComposablePart> list = catalogs.SelectMany(x => x.Parts);
                 return list;
             }
-        }
-
-        public override IEnumerable<ComposablePart> GetMatchingParts(string contractName)
-        {
-            var matchingParts = Parts.Where(x => x.Exports.Any(e => ContractsMatch(e.ContractName, contractName)));
-            return matchingParts;
         }
     }
 }
