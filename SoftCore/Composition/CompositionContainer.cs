@@ -36,11 +36,11 @@ namespace SoftCore.Composition
 
         public T GetExportedValue<T>() where T : class
         {
-            string contractName = CompositionTools.GetContractNameFromType(typeof(T));
-            object instance = GetExportedValue(contractName);
+            Contract contract = CompositionTools.GetContractFromType(typeof(T));
+            object instance = GetExportedValue(contract);
 
             if (instance == null)
-                throw new Exception("Part not found: " + contractName);
+                throw new Exception("Part not found: " + contract.ToString());
 
             T returnValue = instance as T;
             if (returnValue == null)
@@ -49,9 +49,9 @@ namespace SoftCore.Composition
             return returnValue;
         }
 
-        public object GetExportedValue(string contractName)
+        public object GetExportedValue(Contract contract)
         {
-            var list = GetExportsCore(contractName, ImportCardinality.ZeroOrOne, typeof(object))
+            var list = GetExportsCore(contract, ImportCardinality.ZeroOrOne, typeof(object))
                 .FirstOrDefault();
             return list != null ? list.ToInstance(null) : null;
         }
@@ -64,30 +64,40 @@ namespace SoftCore.Composition
 
         public IEnumerable<object> GetExportedValues(Type type)
         {
-            return GetExportedValues(CompositionTools.GetContractNameFromType(type));
+            return GetExportedValues(CompositionTools.GetContractFromType(type));
         }
-        public IEnumerable<object> GetExportedValues(string contractName)
+        public IEnumerable<object> GetExportedValues(Contract contract)
         {
-            var list = GetExportsCore(contractName, ImportCardinality.ZeroOrMore, typeof(object))
+            var list = GetExportsCore(contract, ImportCardinality.ZeroOrMore, typeof(object))
                 .Select(x => x.ToInstance())
                 .ToArray();
 
             return list;
         }
 
-        private IEnumerable<Export> GetExportsCore(string contractName, ImportCardinality cardinality, Type importType)
+        /// <summary>
+        /// Used to satisfy imports on an existing instance that is not exported.
+        /// </summary>
+        public void SatisfyImportsOnInstance(object instance)
+        {
+            // Create temporary composable part just to get a list of imports
+            ComposablePart tmpPart = new ComposablePart(instance.GetType());
+            SatisfyImports(instance, tmpPart);
+        }
+
+        private IEnumerable<Export> GetExportsCore(Contract contract, ImportCardinality cardinality, Type importType)
         {
             lock (this)
             {
-                var matchingParts = catalog.GetMatchingParts(contractName);
+                var matchingParts = GetMatchingParts(catalog, contract);
 
                 switch (cardinality)
                 {
                     case ImportCardinality.ExactlyOne:
                         if (matchingParts.Count() > 1)
-                            throw new Exception("Too many exports found for import '" + contractName + "'. Exactly one is required.");
+                            throw new Exception("Too many exports found for import '" + contract.ToString() + "'. Exactly one is required.");
                         if (matchingParts.Count() == 0)
-                            throw new Exception("No exports found for import '" + contractName + "'. Exactly one is required.");
+                            throw new Exception("No exports found for import '" + contract.ToString() + "'. Exactly one is required.");
                         break;
                     case ImportCardinality.ZeroOrMore:
                     case ImportCardinality.ZeroOrOne:
@@ -115,15 +125,27 @@ namespace SoftCore.Composition
             }
         }
 
-        /// <summary>
-        /// Used to satisfy imports on an existing instance that is not exported.
-        /// </summary>
-        public void SatisfyImportsOnInstance(object instance)
+        private IEnumerable<ComposablePart> GetMatchingParts(Catalog catalog, Contract contract)
         {
-            // Create temporary composable part just to get a list of imports
-            ComposablePart tmpPart = new ComposablePart(instance.GetType());
-            SatisfyImports(instance, tmpPart);
+            foreach (var part in catalog)
+            {
+                if (part.Exports.Any(x => x.Contract == contract))
+                    yield return part;
+            }
         }
+
+        /*protected internal override bool MatchesWith(FieldInfo importFieldInfo, Contract importContract, Contract exportContract)
+        {
+            if (importContract == null)
+            {
+                importContract = CompositionTools.GetContractFromListType(importFieldInfo.FieldType);
+
+                if (importContract == null)
+                    throw new Exception($"Field '{importFieldInfo.Name}' on class '{importFieldInfo.DeclaringType.Name}' must be of type IEnumerable<>.");
+            }
+
+            return importContract == exportContract;
+        }*/
 
         private void SatisfyImport(ComposablePartImport import, object instance, object value)
         {
@@ -143,7 +165,7 @@ namespace SoftCore.Composition
         {
             foreach (var import in part.Imports)
             {
-                var exports = GetExportsCore(import.ContractName, import.Cardinality, import.ImportType);
+                var exports = GetExportsCore(import.Contract, import.Cardinality, import.ImportType);
 
                 switch (import.ImportMethod)
                 {
@@ -297,20 +319,20 @@ namespace SoftCore.Composition
             {
                 foreach (var import in part.Imports)
                 {
-                    IEnumerable<ComposablePart> matchingParts = catalog.GetMatchingParts(import.ContractName);
+                    IEnumerable<ComposablePart> matchingParts = GetMatchingParts(catalog, import.Contract);
 
                     // Check cardinality
                     switch (import.Cardinality)
                     {
                         case ImportCardinality.ExactlyOne:
                             if (matchingParts.Count() == 0)
-                                throw new Exception(string.Format("Export not found. Part: {0}, Import: {1}. Cardinality is ExactlyOne.", part.PartType, import.ContractName));
+                                throw new Exception(string.Format("Export not found. Part: {0}, Import: {1}. Cardinality is ExactlyOne.", part.PartType, import.Contract));
                             else if (matchingParts.Count() > 1)
-                                throw new Exception(string.Format("To many exports found. Part: {0}, Import: '{1}'. Cardinality is ExactlyOne.", part.PartType, import.ContractName));
+                                throw new Exception(string.Format("To many exports found. Part: {0}, Import: '{1}'. Cardinality is ExactlyOne.", part.PartType, import.Contract));
                             break;
                         case ImportCardinality.ZeroOrOne:
                             if (matchingParts.Count() > 1)
-                                throw new Exception(string.Format("To many exports found. Part: {0}, Import: '{1}'. Cardinality is ExactlyOne.", part.PartType, import.ContractName));
+                                throw new Exception(string.Format("To many exports found. Part: {0}, Import: '{1}'. Cardinality is ExactlyOne.", part.PartType, import.Contract));
                             break;
                     }
                 }

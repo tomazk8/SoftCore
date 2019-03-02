@@ -50,7 +50,7 @@ namespace SoftCore.Composition
             this.LifetimeManager = lifetimeManager;
         }
 
-        internal LifetimeManager LifetimeManager { get; private set; }
+        public LifetimeManager LifetimeManager { get; private set; }
 
         public Type PartType { get; private set; }
         public IEnumerable<ComposablePartExport> Exports { get; private set; }

@@ -14,32 +14,17 @@ namespace SoftCore.Composition
     {
         public ImportManyAttribute()
         {
-            ContractName = null;
+            Contract = null;
         }
-        public ImportManyAttribute(string contractName)
+        public ImportManyAttribute(Contract contract)
         {
-            ContractName = contractName;
+            Contract = contract;
         }
         public ImportManyAttribute(Type type)
         {
-            ContractName = CompositionTools.GetContractNameFromListType(type);
+            Contract = CompositionTools.GetContractFromListType(type);
         }
 
-        public string ContractName { get; private set; }
-
-        /*protected internal override bool MatchesWith(FieldInfo importFieldInfo, string exportContractName)
-        {
-            string importContractName = this.ContractName;
-
-            if (string.IsNullOrWhiteSpace(importContractName))
-            {
-                importContractName = AppComposerTools.GetContractNameFromListType(importFieldInfo.FieldType);
-
-                if (importContractName == null)
-                    throw new Exception($"Field '{importFieldInfo.Name}' on class '{importFieldInfo.DeclaringType.Name}' must be of type IEnumerable<>.");
-            }
-
-            return importContractName == exportContractName;
-        }*/
+        public Contract Contract { get; private set; }
     }
 }

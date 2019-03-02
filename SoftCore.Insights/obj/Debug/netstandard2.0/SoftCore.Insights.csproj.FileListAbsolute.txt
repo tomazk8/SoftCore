@@ -10,3 +10,15 @@ D:\Tomaz\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.I
 D:\Tomaz\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.csproj.CopyComplete
 D:\Tomaz\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.dll
 D:\Tomaz\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.pdb
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.csprojAssemblyReference.cache
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.csproj.CoreCompileInputs.cache
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.AssemblyInfoInputs.cache
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.AssemblyInfo.cs
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.dll
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.pdb
+D:\Projects\SoftCore\SoftCore.Insights\bin\Debug\netstandard2.0\SoftCore.Insights.deps.json
+D:\Projects\SoftCore\SoftCore.Insights\bin\Debug\netstandard2.0\SoftCore.Insights.dll
+D:\Projects\SoftCore\SoftCore.Insights\bin\Debug\netstandard2.0\SoftCore.Insights.pdb
+D:\Projects\SoftCore\SoftCore.Insights\bin\Debug\netstandard2.0\SoftCore.dll
+D:\Projects\SoftCore\SoftCore.Insights\bin\Debug\netstandard2.0\SoftCore.pdb
+D:\Projects\SoftCore\SoftCore.Insights\obj\Debug\netstandard2.0\SoftCore.Insights.csproj.CopyComplete

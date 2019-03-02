@@ -15,22 +15,22 @@ namespace SoftCore.Composition
             ImportAttribute importAttribute = attribute as ImportAttribute;
             ImportManyAttribute importManyAttribute = attribute as ImportManyAttribute;
 
-            string contractName;
+            Contract contract;
 
             if (importAttribute != null)
-                contractName = importAttribute.ContractName;
+                contract = importAttribute.Contract;
             else if (importManyAttribute != null)
-                contractName = importManyAttribute.ContractName;
+                contract = importManyAttribute.Contract;
             else
                 throw new NotImplementedException("Attribute no implemented: " + attribute.GetType().Name);
 
             // set or create contract name
-            if (!string.IsNullOrWhiteSpace(contractName))
-                this.ContractName = contractName;
+            if (contract != null)
+                this.Contract = contract;
             else if (importManyAttribute != null)
-                this.ContractName = CompositionTools.GetContractNameFromListType(importingFieldInfo.FieldType);
+                this.Contract = CompositionTools.GetContractFromListType(importingFieldInfo.FieldType);
             else
-                this.ContractName = CompositionTools.GetContractNameFromType(importingFieldInfo.FieldType);
+                this.Contract = CompositionTools.GetContractFromType(importingFieldInfo.FieldType);
 
             // Set imports type and method
             TypeInfo typeInfo = importingFieldInfo.FieldType.GetTypeInfo();
@@ -72,14 +72,17 @@ namespace SoftCore.Composition
                 else
                     throw new Exception("When ImportMany attribute is used, field type must be IEnumerable<T>.");
             }
+
+            if (this.Contract == null)
+                throw new Exception();
         }
 
         internal bool MatchesWith(ComposablePartExport x)
         {
-            return ContractName == x.ContractName;
+            return Contract == x.Contract;
         }
 
-        public string ContractName { get; private set; }
+        public Contract Contract { get; private set; }
         /// <summary>
         /// Gets if part is imported directly, using Lazy<T> or using a List<T>.
         /// </summary>

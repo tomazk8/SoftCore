@@ -51,7 +51,7 @@ namespace SoftCore
         }
         public object GetExportedValue(Type type)
         {
-            return container.GetExportedValue(CompositionTools.GetContractNameFromType(type));
+            return container.GetExportedValue(CompositionTools.GetContractFromType(type));
         }
         public IEnumerable<T> GetExportedValues<T>() where T : class
         {
@@ -59,7 +59,7 @@ namespace SoftCore
         }
         public IEnumerable<object> GetExportedValues(Type type)
         {
-            return container.GetExportedValues(CompositionTools.GetContractNameFromType(type));
+            return container.GetExportedValues(CompositionTools.GetContractFromType(type));
         }
         public void SatisfyImportsOnInstance(object instance)
         {

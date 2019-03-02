@@ -22,7 +22,7 @@ namespace SoftCore.Composition
             parts = explicitInstances
                 .Select(x =>
                 {
-                    var exports = new ComposablePartExport[] { new ComposablePartExport(CompositionTools.GetContractNameFromType(x.InstanceType)) };
+                    var exports = new ComposablePartExport[] { new ComposablePartExport(CompositionTools.GetContractFromType(x.InstanceType)) };
                     var imports = CompositionTools.GetImports(x.Instance.GetType());
 
                     return new ComposablePart(x.InstanceType, exports, imports, new ExplicitInstanceLifetimeManager(x.Instance));

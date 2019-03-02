@@ -2,7 +2,7 @@ using NUnit.Framework;
 using SoftCore;
 using SoftCore.Composition;
 
-namespace Tests
+namespace SoftCore.UnitTests
 {
     public class Tests
     {

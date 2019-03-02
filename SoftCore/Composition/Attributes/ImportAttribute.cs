@@ -14,21 +14,21 @@ namespace SoftCore.Composition
     {
         public ImportAttribute(bool isOptional = false)
         {
-            ContractName = null;
+            Contract = null;
             IsOptional = isOptional;
         }
         public ImportAttribute(string contractName, bool isOptional = false)
         {
-            ContractName = contractName;
+            Contract = new Contract(contractName);
             IsOptional = isOptional;
         }
         public ImportAttribute(Type type, bool isOptional = false)
         {
-            ContractName = CompositionTools.GetContractNameFromType(type);
+            Contract = CompositionTools.GetContractFromType(type);
             IsOptional = isOptional;
         }
 
-        public string ContractName { get; private set; }
+        public Contract Contract { get; private set; }
         public bool IsOptional { get; private set; }
     }
 }

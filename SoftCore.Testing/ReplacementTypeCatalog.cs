@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace SoftCore.Testing
 {
@@ -15,36 +14,60 @@ namespace SoftCore.Testing
     public class ReplacementTypeCatalog : Catalog
     {
         private Catalog baseCatalog;
-        private List<ComposablePart> replacementParts = new List<ComposablePart>();
+        private IEnumerable<ComposablePart> replacementParts;
         private List<ComposablePart> allParts = new List<ComposablePart>();
 
         public ReplacementTypeCatalog(Catalog baseCatalog, params Type[] types)
         {
             this.baseCatalog = baseCatalog;
 
-            foreach (var type in types)
-            {
-                // Get exports marked with ReplacementExport attribute instead of a standard Export attribute
-                var replacementExports = GetReplacementExports(type);
-                // Imports are the same
-                var imports = CompositionTools.GetImports(type);
+            replacementParts = types.Select(x =>
+                {
+                    // Get exports marked with ReplacementExport attribute instead of a standard Export attribute
+                    var exports = GetReplacementExports(x);
+                    // Imports are the same
+                    var imports = CompositionTools.GetImports(x);
+                        return new ComposablePart(x, exports, imports, new SharedLifetimeManager(x));
+                })
+                .ToArray();
+            allParts.AddRange(replacementParts);
 
-                ComposablePart replacementPart = new ComposablePart(type, replacementExports, imports, new SharedLifetimeManager(type));
-                replacementParts.Add(replacementPart);
-            }
+            IEnumerable<Contract> replacementExports = replacementParts
+                .SelectMany(x => x.Exports)
+                .Select(x => x.Contract)
+                .ToArray();
 
-            foreach (var part in baseCatalog)
+            foreach (var part in baseCatalog.Parts)
             {
-                var list = replacementParts.Where(
+                List<ComposablePartExport> notReplacedExports = new List<ComposablePartExport>();
+                bool areExportsReplaced = false;
+
+                foreach (var export in part.Exports)
+                {
+                    if (replacementExports.Contains(export.Contract))
+                        areExportsReplaced = true;
+                    else
+                        notReplacedExports.Add(export);
+                }
+
+                if (areExportsReplaced)
+                {
+                    if (notReplacedExports.Any())
+                    {
+                        // Only some of the exports are replaced. Therefore create a new part that takes everything from
+                        // replaced part, except the exports it replaces, but keeps the rest of the exports.
+                        var newPart = new ComposablePart(part.PartType, notReplacedExports, part.Imports, part.LifetimeManager);
+                        allParts.Add(newPart);
+                    }
+                }
+                else
+                    // None or all of the exports of this part are replaced, so add this part from the baseCatalog
+                    // on the list as it is.
+                    allParts.Add(part);
             }
         }
 
-        public override IEnumerable<ComposablePart> Parts => throw new NotImplementedException();
-
-        private IEnumerable<> (ComposablePart part1, ComposablePart part2)
-        {
-            return part1.Exports.Any(x => part2.Exports.Any(y => y.Contract == x.Contract));
-        }
+        public override IEnumerable<ComposablePart> Parts => allParts;
 
         // TODO: the method is copy pasted from SoftCore code. Try to find a way to share the same
         // functionality but with different attributes.

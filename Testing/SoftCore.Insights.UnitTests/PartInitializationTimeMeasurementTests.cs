@@ -5,7 +5,7 @@ using SoftCore.Insights;
 using System;
 using System.Threading;
 
-namespace Tests
+namespace SoftCore.Insights.UnitTests
 {
     public class PartInitializationTimeMeasurementTests
     {
