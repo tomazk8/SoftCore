@@ -12,19 +12,16 @@ namespace SoftCore.Composition
     {
         private Catalog catalog;
         private ComposablePart[] parts;
-        private IProxyFactory proxyFactory;
         // List of exports that are floating (nobody imports them)
         public FloatingExportManager floatingExportManager;
 
-        public CompositionContainer(Catalog catalog, IProxyFactory proxyFactory = null)
+        public CompositionContainer(Catalog catalog)
         {
             this.catalog = catalog;
 
             CheckCatalogParts();
 
             PreRunChecking?.Invoke(this, new PreRunCheckingEventArgs(catalog));
-
-            this.proxyFactory = proxyFactory;
 
             floatingExportManager = new FloatingExportManager(this);
         }
@@ -147,18 +144,14 @@ namespace SoftCore.Composition
             return importContract == exportContract;
         }*/
 
-        private void SatisfyImport(ComposablePartImport import, object instance, object value)
+        private void SatisfyImport(ComposablePartImport import, object instance, object fieldValue)
         {
-            if (!import.FieldInfo.FieldType.IsAssignableFrom(value.GetType()))
-                throw new Exception(string.Format("Unable to cast {0} to {1}.", value.GetType().ToString(), import.FieldInfo.FieldType.ToString()));
+            InvokeSatisfyingImportEvent(import.FieldInfo, fieldValue);
 
-            // If import imports value using an interface, trigger an event that can handle proxy generation.
-            if (import.FieldInfo.FieldType.IsInterface && proxyFactory != null)
-                value = proxyFactory.CreateProxy(import.FieldInfo.FieldType.GetTypeInfo(), () => instance);
+            if (!import.FieldInfo.FieldType.IsAssignableFrom(fieldValue.GetType()))
+                throw new Exception(string.Format("Unable to cast {0} to {1}.", fieldValue.GetType().ToString(), import.FieldInfo.FieldType.ToString()));
 
-            //
-
-            import.FieldInfo.SetValue(instance, value);
+            import.FieldInfo.SetValue(instance, fieldValue);
         }
 
         private void SatisfyImports(object instance, ComposablePart part)
@@ -300,14 +293,7 @@ namespace SoftCore.Composition
                 return instanceInfo.Instance;
             });
 
-            object instance;
-
-            if (proxyFactory != null)
-                instance = proxyFactory.CreateProxy(importType.GetTypeInfo(), instanceCreator);
-            else
-                instance = instanceCreator();
-
-            return instance;
+            return instanceCreator();
         }
 
         /// <summary>

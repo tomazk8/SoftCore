@@ -5,7 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SoftCore.Interception\SoftCore.Interception.csproj" />
+    <PackageReference Include="Castle.Core" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SoftCore\SoftCore.csproj" />
   </ItemGroup>
 

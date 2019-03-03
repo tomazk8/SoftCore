@@ -5,7 +5,6 @@
 + Lazy resolving
 + ExportFactory
 + Catalogs (Application, Assembly, Type, Aggregate, ExplicitInstance, Filter)
-Replacement export - for testing
 + Floating parts - using special attribute
 + IEntryPoint
 + Constructor parameter injection - only over ExportFactory
@@ -34,7 +33,7 @@ TODO:
 - Activity recording
 - Make automatic unit tests based on recorded data
 - Testing
-	- ReplacementPart
+	+ ReplacementPart
 	- ImportOriginal from replacement export
 - Performance profiling
 	- Measure part processing time

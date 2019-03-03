@@ -15,13 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.Testing", "SoftCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.UnitTests", "Testing\SoftCore.UnitTests\SoftCore.UnitTests.csproj", "{61427561-4740-4DAD-A872-73FBA34F1F1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Insights", "SoftCore.Insights\SoftCore.Insights.csproj", "{CA0C986B-4CFB-4ADE-8379-A561C3FA84EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.Insights", "SoftCore.Insights\SoftCore.Insights.csproj", "{CA0C986B-4CFB-4ADE-8379-A561C3FA84EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Insights.UnitTests", "Testing\SoftCore.Insights.UnitTests\SoftCore.Insights.UnitTests.csproj", "{816A725B-F872-48F5-AD4E-0A9E2FB6A1A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.Insights.UnitTests", "Testing\SoftCore.Insights.UnitTests\SoftCore.Insights.UnitTests.csproj", "{816A725B-F872-48F5-AD4E-0A9E2FB6A1A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Testing.UnitTests", "Testing\SoftCore.Testing.UnitTests\SoftCore.Testing.UnitTests.csproj", "{56A77726-C09C-4173-8A44-8277C55B1F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.Testing.UnitTests", "Testing\SoftCore.Testing.UnitTests\SoftCore.Testing.UnitTests.csproj", "{56A77726-C09C-4173-8A44-8277C55B1F1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.InterfaceBridging", "SoftCore.InterfaceBridging\SoftCore.InterfaceBridging.csproj", "{9737C70C-BD57-4562-BE61-43F6A699656C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.InterfaceBridging", "SoftCore.InterfaceBridging\SoftCore.InterfaceBridging.csproj", "{9737C70C-BD57-4562-BE61-43F6A699656C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.InterfaceBridging.UnitTests", "Testing\SoftCore.InterfaceBridging.UnitTests\SoftCore.InterfaceBridging.UnitTests.csproj", "{95DCED59-784D-436C-907C-58565AF566DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +67,10 @@ Global
 		{9737C70C-BD57-4562-BE61-43F6A699656C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9737C70C-BD57-4562-BE61-43F6A699656C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9737C70C-BD57-4562-BE61-43F6A699656C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DCED59-784D-436C-907C-58565AF566DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DCED59-784D-436C-907C-58565AF566DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DCED59-784D-436C-907C-58565AF566DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DCED59-784D-436C-907C-58565AF566DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{61427561-4740-4DAD-A872-73FBA34F1F1B} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 		{816A725B-F872-48F5-AD4E-0A9E2FB6A1A4} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 		{56A77726-C09C-4173-8A44-8277C55B1F1E} = {538962A0-C846-4A4D-8DA9-EB230E280306}
+		{95DCED59-784D-436C-907C-58565AF566DF} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8534F2E-D5A7-4AC0-A05A-874C4546A2B3}

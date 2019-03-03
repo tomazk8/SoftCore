@@ -22,7 +22,5 @@ D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCor
 D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.InterfaceBridging.dll
 D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.InterfaceBridging.pdb
 D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.dll
-D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.Interception.dll
-D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.Interception.pdb
 D:\Projects\SoftCore\SoftCore.InterfaceBridging\bin\Debug\netstandard2.0\SoftCore.pdb
 D:\Projects\SoftCore\SoftCore.InterfaceBridging\obj\Debug\netstandard2.0\SoftCore.InterfaceBridging.csproj.CopyComplete

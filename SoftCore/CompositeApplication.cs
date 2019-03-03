@@ -49,6 +49,10 @@ namespace SoftCore
         {
             return container.GetExportedValue<T>();
         }
+        public T GetExportedValue<T>(string contractName) where T : class
+        {
+            return (T)container.GetExportedValue(new Contract(contractName));
+        }
         public object GetExportedValue(Type type)
         {
             return container.GetExportedValue(CompositionTools.GetContractFromType(type));
