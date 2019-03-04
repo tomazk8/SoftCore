@@ -146,7 +146,7 @@ namespace SoftCore.Composition
 
         private void SatisfyImport(ComposablePartImport import, object instance, object fieldValue)
         {
-            InvokeSatisfyingImportEvent(import.FieldInfo, fieldValue);
+            fieldValue = InvokeSatisfyingImportEvent(import.FieldInfo, fieldValue);
 
             if (!import.FieldInfo.FieldType.IsAssignableFrom(fieldValue.GetType()))
                 throw new Exception(string.Format("Unable to cast {0} to {1}.", fieldValue.GetType().ToString(), import.FieldInfo.FieldType.ToString()));
@@ -329,12 +329,18 @@ namespace SoftCore.Composition
         public event EventHandler<PartCreationEventArgs> PartCreationEnded;
         public event EventHandler<PreRunCheckingEventArgs> PreRunChecking;
 
-        private void InvokeSatisfyingImportEvent(FieldInfo fieldInfo, object instance)
+        private object InvokeSatisfyingImportEvent(FieldInfo fieldInfo, object instance)
         {
+            object newInstance = instance;
+
             foreach (var item in satisfyingImportInvocationList)
             {
-                item(this, new SatisfyingImportEventArgs(fieldInfo) { Instance = instance });
+                var args = new SatisfyingImportEventArgs(fieldInfo) { Instance = instance };
+                item(this, args);
+                newInstance = args.Instance;
             }
+
+            return newInstance;
         }
 
         private LinkedList<EventHandler<SatisfyingImportEventArgs>> satisfyingImportInvocationList =

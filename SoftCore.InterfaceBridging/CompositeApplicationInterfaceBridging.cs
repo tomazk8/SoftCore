@@ -31,28 +31,23 @@ namespace SoftCore.InterfaceBridging
             if (e.FieldInfo.FieldType.IsAssignableFrom(e.Instance.GetType()))
                 return;
 
-            // If value implements the interface with the same name and same methods, a bridge is created. Note that
-            // a field's interface can contain a subset of members in the value interface, but the signatures
+            // If instance implements the interface with the same name and same methods, a bridge is created. Note that
+            // a field's interface can contain a subset of members in the instance interface, but the signatures
             // of matching members must be the same.
-            var valueInterfaceInfo = e.Instance.GetType().GetInterface(e.FieldInfo.FieldType.Name);
+            var exportInterfaceType = e.Instance.GetType().GetInterface(e.FieldInfo.FieldType.Name);
 
             // Skip if the value doesn't implement this interface
-            if (valueInterfaceInfo == null)
+            if (exportInterfaceType == null)
                 return;
 
             // Check if member signatures match
-            var fieldInterfaceMembers = e.MemberInvocation.TargetType.GetMembers(BindingFlags.Public | BindingFlags.Instance);
+            Tools.CheckInterfaceSignatures(e.FieldInfo.FieldType, exportInterfaceType);
 
-            foreach (var fieldInterfaceMember in fieldInterfaceMembers)
-            {
-                // Find this member in the values' interface
-                var valueInterfaceMember = valueInterfaceInfo.GetMember(fieldInterfaceMember.Name);
+            InterfaceBridged?.Invoke(this, new InterfaceBridgedEventArgs { ExportType = exportInterfaceType, ImportType = e.FieldInfo.FieldType });
 
-                if (valueInterfaceMember == null)
-                    throw new Exception($"Interface cannot be bridged because member signatures are not the same. Note that the target interface can have less members.");
-            }
-
-            // TODO: trigger event
+            InterfaceBridgeInterceptor interceptor = new InterfaceBridgeInterceptor(exportInterfaceType, e.Instance);
+            object proxy = proxyGenerator.CreateInterfaceProxyWithoutTarget(e.FieldInfo.FieldType, interceptor);
+            e.Instance = proxy;
         }
 
         public void EnableInterfaceBridging()
@@ -69,7 +64,7 @@ namespace SoftCore.InterfaceBridging
 
     public class InterfaceBridgedEventArgs : EventArgs
     {
-        public Type ExportType { get; private set; }
-        public Type ImportType { get; private set; }
+        public Type ExportType { get; set; }
+        public Type ImportType { get; set; }
     }
 }
