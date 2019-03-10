@@ -17,8 +17,8 @@ namespace SoftCore.UnitTests.CompositionTests
                 typeof(ExportC),
                 typeof(ImportA));
 
-            CompositeApplication composer = new CompositeApplication(catalog);
-            ImportA importA = composer.GetExportedValue<ImportA>();
+            CompositeApplication compositeApplication = new CompositeApplication(catalog);
+            ImportA importA = compositeApplication.GetExportedValue<ImportA>();
 
             Assert.IsNotNull(importA.ExportA);
             Assert.IsNotNull(importA.ExportB);
@@ -52,8 +52,10 @@ namespace SoftCore.UnitTests.CompositionTests
         {
             [Import]
             private ExportA exportA;
+
             [Import(typeof(ExportB))]
             private ExportB exportB;
+
             [Import("MyExport")]
             private ExportC exportC;
 

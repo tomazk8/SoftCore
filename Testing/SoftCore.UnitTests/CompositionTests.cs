@@ -11,8 +11,7 @@ namespace SoftCore.UnitTests
         {
         }
 
-        
-        [Test]
+        /*[Test]
         public void TestMismatchingImportAndExportTypes()
         {
         }
@@ -20,6 +19,6 @@ namespace SoftCore.UnitTests
         [Test]
         public void ValidatePreRunChecks()
         {
-        }
+        }*/
     }
 }

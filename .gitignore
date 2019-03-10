@@ -9,3 +9,7 @@
 /SoftCore.Security/bin
 /SoftCore.Testing/bin
 /Testing/SoftCore.UnitTests/bin
+/Testing/SoftCore.Insights.UnitTests/bin/Debug/netcoreapp2.2
+/Testing/SoftCore.Insights.UnitTests/obj
+/Testing/SoftCore.InterfaceBridging.UnitTests/bin/Debug/netcoreapp2.2
+netcoreapp2.2
