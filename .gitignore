@@ -13,3 +13,5 @@
 /Testing/SoftCore.Insights.UnitTests/obj
 /Testing/SoftCore.InterfaceBridging.UnitTests/bin/Debug/netcoreapp2.2
 netcoreapp2.2
+/SoftCore.InterfaceBridging/obj/Debug/netstandard2.0
+/SoftCore.Insights/obj/Debug/netstandard2.0
