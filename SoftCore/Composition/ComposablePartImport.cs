@@ -38,39 +38,41 @@ namespace SoftCore.Composition
             if (importAttribute != null)
             {
                 Cardinality = importAttribute.IsOptional ? ImportCardinality.ZeroOrOne : ImportCardinality.ExactlyOne;
-
-                if (typeInfo.IsGenericType &&
-                    typeInfo.GetGenericTypeDefinition().Equals(typeof(Lazy<>)) &&
-                    typeInfo.GenericTypeArguments != null && typeInfo.GenericTypeArguments.Length == 1)
-                {
-                    ImportType = typeInfo.GenericTypeArguments.Single();
-                    ImportMethod = ImportMethod.Lazy;
-                }
-                else if (typeInfo.IsGenericType &&
-                    typeInfo.GetGenericTypeDefinition().Name.StartsWith("ExportFactory"))
-                {
-                    ImportType = typeInfo.GenericTypeArguments.First();
-                    ImportMethod = ImportMethod.ExportFactory;
-                }
-                else
-                {
-                    ImportType = importingFieldInfo.FieldType;
-                    ImportMethod = ImportMethod.Direct;
-                }
             }
             else if (importManyAttribute != null)
             {
                 Cardinality = ImportCardinality.ZeroOrMore;
 
+                // Get the type from the enumerable generic type.
                 if (typeInfo.IsGenericType &&
                     typeInfo.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)) &&
                     typeInfo.GenericTypeArguments != null && typeInfo.GenericTypeArguments.Length == 1)
                 {
-                    ImportType = typeInfo.GenericTypeArguments.Single();
-                    ImportMethod = ImportMethod.List;
+                    typeInfo = typeInfo.GenericTypeArguments.Single().GetTypeInfo();
                 }
                 else
-                    throw new Exception("When ImportMany attribute is used, field type must be IEnumerable<T>.");
+                    throw new NotSupportedException($"When {nameof(ImportManyAttribute)} is used, the field has to be of type IEnumerable<>.");
+            }
+            else
+                throw new NotSupportedException($"Attribute {attribute.GetType().Name} is not yet supported.");
+
+            if (typeInfo.IsGenericType &&
+                typeInfo.GetGenericTypeDefinition().Equals(typeof(Lazy<>)) &&
+                typeInfo.GenericTypeArguments != null && typeInfo.GenericTypeArguments.Length == 1)
+            {
+                ImportType = typeInfo.GenericTypeArguments.Single();
+                ImportMethod = ImportMethod.Lazy;
+            }
+            else if (typeInfo.IsGenericType &&
+                typeInfo.GetGenericTypeDefinition().Name.StartsWith("ExportFactory"))
+            {
+                ImportType = typeInfo.GenericTypeArguments.First();
+                ImportMethod = ImportMethod.ExportFactory;
+            }
+            else
+            {
+                ImportType = typeInfo;
+                ImportMethod = ImportMethod.Direct;
             }
 
             if (this.Contract == null)
@@ -109,10 +111,6 @@ namespace SoftCore.Composition
         /// <summary>
         /// Export factory is exported
         /// </summary>
-        ExportFactory,
-        /// <summary>
-        /// A list of classes of a specific type is imported
-        /// </summary>
-        List
+        ExportFactory
     }
 }

@@ -8,10 +8,13 @@ namespace SoftCore.Composition
     {
         private Func<IEnumerable<object>, object> instanceCreator;
 
-        public Export(Func<IEnumerable<object>, object> instanceCreator)
+        public Export(Func<IEnumerable<object>, object> instanceCreator, Type exportType)
         {
             this.instanceCreator = instanceCreator;
+            this.ExportType = exportType;
         }
+
+        public Type ExportType { get; private set; }
 
         public object ToInstance()
         {

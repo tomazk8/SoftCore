@@ -34,9 +34,7 @@ namespace SoftCore.Composition
             if (type.IsGenericType &&
                 type.GetGenericTypeDefinition().Equals(typeof(IEnumerable<>)))
             {
-                type = type.GenericTypeArguments.Single();
-
-                return new Contract(type.Namespace + "." + type.Name);
+                return GetContractFromType(type.GenericTypeArguments.Single());
             }
             else
                 return null;

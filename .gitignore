@@ -9,3 +9,5 @@
 /SoftCore.Security/bin
 /SoftCore.Testing/bin
 /Testing/SoftCore.UnitTests/bin
+bin
+obj

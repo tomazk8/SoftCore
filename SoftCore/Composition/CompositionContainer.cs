@@ -112,7 +112,8 @@ namespace SoftCore.Composition
                                 object instance = CreateInstance(part, importType, args);
 
                                 return instance;
-                            });
+                            },
+                            part.PartType);
 
                         return export;
                     })
@@ -131,21 +132,58 @@ namespace SoftCore.Composition
             }
         }
 
-        /*protected internal override bool MatchesWith(FieldInfo importFieldInfo, Contract importContract, Contract exportContract)
+        private void SatisfyImport(ComposablePartImport import, object instance, IEnumerable<object> fieldValues)
         {
-            if (importContract == null)
-            {
-                importContract = CompositionTools.GetContractFromListType(importFieldInfo.FieldType);
+            if (!fieldValues.Any())
+                return;
 
-                if (importContract == null)
-                    throw new Exception($"Field '{importFieldInfo.Name}' on class '{importFieldInfo.DeclaringType.Name}' must be of type IEnumerable<>.");
+            object fieldValue = null;
+
+            if (import.Cardinality == ImportCardinality.ZeroOrMore)
+            {
+                // Create a list with same generic argument as the type specified in imported IEnumerable field.
+                var listType = typeof(List<>);
+                Type genericType;
+
+                switch (import.ImportMethod)
+                {
+                    case ImportMethod.Direct:
+                        {
+                            genericType = import.ImportType;
+                            break;
+                        }
+                    case ImportMethod.ExportFactory:
+                        {
+                            var innerType = typeof(ExportFactory<>);
+                            genericType = innerType.MakeGenericType(import.ImportType);
+                            break;
+                        }
+                    case ImportMethod.Lazy:
+                        {
+                            var innerType = typeof(Lazy<>);
+                            genericType = innerType.MakeGenericType(import.ImportType);
+                            break;
+                        }
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                var constructedType = listType.MakeGenericType(genericType);
+                IList list = Activator.CreateInstance(constructedType) as IList;
+
+                // Fill the list
+                foreach (var tmpValue in fieldValues)
+                {
+                    list.Add(tmpValue);
+                }
+
+                fieldValue = list;
+            }
+            else
+            {
+                fieldValue = fieldValues.FirstOrDefault();
             }
 
-            return importContract == exportContract;
-        }*/
-
-        private void SatisfyImport(ComposablePartImport import, object instance, object fieldValue)
-        {
             fieldValue = InvokeSatisfyingImportEvent(import.FieldInfo, fieldValue);
 
             if (!import.FieldInfo.FieldType.IsAssignableFrom(fieldValue.GetType()))
@@ -165,33 +203,18 @@ namespace SoftCore.Composition
                     case ImportMethod.Direct:
                         {
                             if (exports.Any())
-                                SatisfyImport(import, instance, exports.First().ToInstance());
-                            break;
-                        }
-                    case ImportMethod.List:
-                        {
-                            // Create a list with same generic argument as the type specified in imported IEnumerable field.
-                            var listType = typeof(List<>);
-                            var constructedType = listType.MakeGenericType(import.ImportType);
-                            IList list = Activator.CreateInstance(constructedType) as IList;
-
-                            // Fill the list
-                            foreach (var export in exports)
-                            {
-                                list.Add(export.ToInstance());
-                            }
-
-                            SatisfyImport(import, instance, list);
+                                SatisfyImport(import, instance, exports.Select(x => x.ToInstance()));
                             break;
                         }
                     case ImportMethod.Lazy:
                         {
                             var lazyType = typeof(LazyExport<>);
                             var constructedLazyType = lazyType.MakeGenericType(import.ImportType);
-                            Export export = exports.First();
-                            object lazyInstance = Activator.CreateInstance(constructedLazyType, export);
+                            
+                            var lazyInstances = exports
+                                .Select(x => Activator.CreateInstance(constructedLazyType, x));
 
-                            SatisfyImport(import, instance, lazyInstance);
+                            SatisfyImport(import, instance, lazyInstances);
 
                             break;
                         }
@@ -256,10 +279,11 @@ namespace SoftCore.Composition
                                 genericTypeArguments = new Type[1] { import.ImportType };
 
                             var constructedExportType = exportType.MakeGenericType(genericTypeArguments);
-                            Export export = exports.First();
-                            object exportFactoryInstance = Activator.CreateInstance(constructedExportType, export);
+                            
+                            var instances = exports
+                                .Select(x => Activator.CreateInstance(constructedExportType, x));
 
-                            SatisfyImport(import, instance, exportFactoryInstance);
+                            SatisfyImport(import, instance, instances);
 
                             break;
                         }

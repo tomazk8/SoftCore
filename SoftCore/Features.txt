@@ -8,6 +8,7 @@
 + Floating parts - using special attribute
 + IEntryPoint
 + Constructor parameter injection - only over ExportFactory
++ Add ExportType property to ExportFactory, so when importing a list of base classes, importer can differentiate between types.
 + AOP (interception on interfaces using proxy)
 	Access control
 	logging
@@ -20,34 +21,29 @@ Pre runtime checks
 	check referenced assemblies
 	+ ExportFactory only used on NotShared parts
 	+ parts must have only one private constructor
+	prevent cyclic importing (cyclick dependency)
 + .NET standard
 Areas, (contexts)
-
-
-TODO:
-- Areas
-	- Maybe run in isolation (AppDomain or Process)
-- Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
-- Licensing. LicencedExport attribute, with GUID maybe.
-- Cyclic import check
-- Activity recording
-- Make automatic unit tests based on recorded data
-- Testing
-	+ ReplacementPart
-	- ImportOriginal from replacement export
-- Performance profiling
-	- Measure part processing time
+Shutdown event - parts can cleanup when application or area is shut down.
+Performance profiling
+	Measure part processing time
 	+ Measure part init time
-- Statistics
-	- Call event when part is taken from catalog
-	- Call event when part init starts and when it ends
-- Interface bridging
-- Other lifestyles
-	- Context (Web request, thread,...)
-- Auto multi threading and horizontal scaling or parts. Make copies, one per Thread. Do load balancing.
-- Backgroung part creaation - singletons only. Creates parts before they are used.
-- Disposable parts?
-- Manual wiring
-- Shutdown event - parts can do cleanup when application or area is shut down.
-- Export all types in an inheritance tree along with all implemented interfaces
-- Limit added features only to some customers. This would be to test new functionality at limited customers.
+Testing
+	+ ReplacementPart
+	ImportOriginal from replacement export
+Activity recording
+Make automatic unit tests based on recorded data
+Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
+Licensing. LicencedExport or normal export with i.e. LicensedPart attribute? A new catalog is also needed to perform filtering.
+Statistics
+	Call event when part is taken from catalog
+	Call event when part init starts and when it ends
++ Interface bridging
+Other lifestyles
+	Context (Web request, thread,...)
+Auto multi threading and horizontal scaling or parts. Make copies, one per Thread. Do load balancing.
+Backgroung part creaation - singletons only. Creates parts before they are used.
+Disposable parts?
+Manual wiring?
+Export all types in an inheritance tree along with all implemented interfaces
+Limit added features only to some customers. This would be to test new functionality at limited customers. This could be part of 

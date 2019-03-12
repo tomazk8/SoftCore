@@ -13,6 +13,8 @@ namespace SoftCore.Composition
             this.export = export;
         }
 
+        public Type ExportType => export.ExportType;
+
         public T CreateExport()
         {
             return (T)export.ToInstance();
@@ -27,6 +29,8 @@ namespace SoftCore.Composition
         {
             this.export = export;
         }
+
+        public Type ExportType => export.ExportType;
 
         public T CreateExport(TParam1 param1)
         {
@@ -43,6 +47,8 @@ namespace SoftCore.Composition
             this.export = export;
         }
 
+        public Type ExportType => export.ExportType;
+
         public T CreateExport(TParam1 param1, TParam2 param2)
         {
             return (T)export.ToInstance(new object[] { param1, param2 });
@@ -57,6 +63,8 @@ namespace SoftCore.Composition
         {
             this.export = export;
         }
+
+        public Type ExportType => export.ExportType;
 
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3)
         {
@@ -73,6 +81,8 @@ namespace SoftCore.Composition
             this.export = export;
         }
 
+        public Type ExportType => export.ExportType;
+
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4)
         {
             return (T)export.ToInstance(new object[] { param1, param2, param3, param4 });
@@ -87,6 +97,8 @@ namespace SoftCore.Composition
         {
             this.export = export;
         }
+
+        public Type ExportType => export.ExportType;
 
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5)
         {
@@ -103,6 +115,8 @@ namespace SoftCore.Composition
             this.export = export;
         }
 
+        public Type ExportType => export.ExportType;
+
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6)
         {
             return (T)export.ToInstance(new object[] { param1, param2, param3, param4, param5, param6 });
@@ -118,6 +132,8 @@ namespace SoftCore.Composition
             this.export = export;
         }
 
+        public Type ExportType => export.ExportType;
+
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7)
         {
             return (T)export.ToInstance(new object[] { param1, param2, param3, param4, param5, param6, param7 });
@@ -132,6 +148,8 @@ namespace SoftCore.Composition
         {
             this.export = export;
         }
+
+        public Type ExportType => export.ExportType;
 
         public T CreateExport(TParam1 param1, TParam2 param2, TParam3 param3, TParam4 param4, TParam5 param5, TParam6 param6, TParam7 param7, TParam8 param8)
         {
