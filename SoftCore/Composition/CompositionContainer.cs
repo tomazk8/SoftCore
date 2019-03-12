@@ -289,6 +289,8 @@ namespace SoftCore.Composition
                         }
                 }
             }
+
+            SatisfyingImports?.Invoke(this, new SatisfyingImportsEventArgs(part, instance));
         }
 
         internal object CreateInstance(ComposablePart part, Type importType, IEnumerable<object> args)
@@ -382,6 +384,8 @@ namespace SoftCore.Composition
                 satisfyingImportInvocationList.Remove(value);
             }
         }
+
+        public event EventHandler<SatisfyingImportsEventArgs> SatisfyingImports;
     }
 
     public class PartCreationEventArgs : EventArgs
@@ -398,6 +402,17 @@ namespace SoftCore.Composition
 
         public FieldInfo FieldInfo { get; private set; }
         public object Instance { get; set; }
+    }
+    public class SatisfyingImportsEventArgs : EventArgs
+    {
+        public SatisfyingImportsEventArgs(ComposablePart part, object instance)
+        {
+            this.Part = part;
+            this.Instance = instance;
+        }
+
+        public ComposablePart Part { get; private set; }
+        public object Instance { get; private set; }
     }
 
     public class PreRunCheckingEventArgs : EventArgs

@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.Testing.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.InterfaceBridging", "SoftCore.InterfaceBridging\SoftCore.InterfaceBridging.csproj", "{9737C70C-BD57-4562-BE61-43F6A699656C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.InterfaceBridging.UnitTests", "Testing\SoftCore.InterfaceBridging.UnitTests\SoftCore.InterfaceBridging.UnitTests.csproj", "{95DCED59-784D-436C-907C-58565AF566DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoftCore.InterfaceBridging.UnitTests", "Testing\SoftCore.InterfaceBridging.UnitTests\SoftCore.InterfaceBridging.UnitTests.csproj", "{95DCED59-784D-436C-907C-58565AF566DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Licensing", "SoftCore.Licensing\SoftCore.Licensing.csproj", "{D33D3BC1-7388-4612-86DC-81A4307FA2DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Licensing.UnitTests", "Testing\SoftCore.Licensing.UnitTests\SoftCore.Licensing.UnitTests.csproj", "{0144D39B-F4D6-4B56-ABCD-43F498278B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,14 @@ Global
 		{95DCED59-784D-436C-907C-58565AF566DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95DCED59-784D-436C-907C-58565AF566DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95DCED59-784D-436C-907C-58565AF566DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D33D3BC1-7388-4612-86DC-81A4307FA2DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D33D3BC1-7388-4612-86DC-81A4307FA2DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D33D3BC1-7388-4612-86DC-81A4307FA2DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D33D3BC1-7388-4612-86DC-81A4307FA2DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0144D39B-F4D6-4B56-ABCD-43F498278B52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0144D39B-F4D6-4B56-ABCD-43F498278B52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0144D39B-F4D6-4B56-ABCD-43F498278B52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0144D39B-F4D6-4B56-ABCD-43F498278B52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +92,7 @@ Global
 		{816A725B-F872-48F5-AD4E-0A9E2FB6A1A4} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 		{56A77726-C09C-4173-8A44-8277C55B1F1E} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 		{95DCED59-784D-436C-907C-58565AF566DF} = {538962A0-C846-4A4D-8DA9-EB230E280306}
+		{0144D39B-F4D6-4B56-ABCD-43F498278B52} = {538962A0-C846-4A4D-8DA9-EB230E280306}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D8534F2E-D5A7-4AC0-A05A-874C4546A2B3}

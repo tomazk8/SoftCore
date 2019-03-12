@@ -34,7 +34,9 @@ Testing
 Activity recording
 Make automatic unit tests based on recorded data
 Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
-Licensing. LicencedExport or normal export with i.e. LicensedPart attribute? A new catalog is also needed to perform filtering.
+Licensing
+	+ LicencedExport or normal export with i.e. LicensedPart attribute? A new catalog is also needed to perform filtering.
+	Licence parameters. Part will in some way get these parameters. The best way is probably to inject them into the field.
 Statistics
 	Call event when part is taken from catalog
 	Call event when part init starts and when it ends

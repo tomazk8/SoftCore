@@ -24,16 +24,13 @@ namespace SoftCore
 
         public CompositeApplication(Catalog compositeCatalog)
         {
-            if (this.container != null)
-                throw new Exception("Application is already running");
-
             // Initialize catalog with internal parts
-            ExplicitInstanceCatalog internalCatalog = new ExplicitInstanceCatalog(
+            ExplicitInstanceCatalog internalCatalog = new ExplicitInstanceCatalog(  
                 new ExplicitInstance(typeof(ICompositeApplication), this));
             this.catalog = new AggregateCatalog(compositeCatalog, internalCatalog);
 
             // Create composition container
-            this.container = new CompositionContainer(this.catalog);
+            this.container = new CompositionContainer(catalog);
 
             PreRunChecks.PerformChecks(container);
         }
@@ -72,14 +69,13 @@ namespace SoftCore
 
         public event EventHandler<SatisfyingImportEventArgs> SatisfyingImport
         {
-            add
-            {
-                container.SatisfyingImport += value;
-            }
-            remove
-            {
-                container.SatisfyingImport -= value;
-            }
+            add { container.SatisfyingImport += value; }
+            remove { container.SatisfyingImport -= value; }
+        }
+        public event EventHandler<SatisfyingImportsEventArgs> SatisfyingImports
+        {
+            add { container.SatisfyingImports += value; }
+            remove { container.SatisfyingImports -= value; }
         }
         public event EventHandler<PreRunCheckingEventArgs> PreRunChecking;
         public event EventHandler<PartCreationEventArgs> PartCreationStarted
