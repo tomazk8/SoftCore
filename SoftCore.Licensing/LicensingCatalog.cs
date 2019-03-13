@@ -9,11 +9,14 @@ namespace SoftCore.Licensing
     public class LicensingCatalog : Catalog
     {
         private IEnumerable<ComposablePart> filteredParts;
+        private Licence licence;
 
-        public LicensingCatalog(Catalog baseCatalog, Func<ComposablePart, bool> filterFunction)
+        public LicensingCatalog(Catalog baseCatalog, Licence licence)
         {
+            this.licence = licence;
+
             filteredParts = baseCatalog.Parts
-                .Where(x => filterFunction(x))
+                .Where(x => FilterFunction(x))
                 .ToArray();
         }
 
@@ -22,7 +25,7 @@ namespace SoftCore.Licensing
         public bool FilterFunction(ComposablePart part)
         {
             bool isPartLicensed = false;
-            string licensedPartName = GetLicensedPartName(part);
+            string licensedPartName = SoftCoreLicensing.GetLicensedPartName(part);
 
             // If attribute exists, it must be in the licence in order for it to be added to the catalog.
             if (licensedPartName != null)
@@ -31,16 +34,6 @@ namespace SoftCore.Licensing
                 isPartLicensed = true;
 
             return isPartLicensed;
-        }
-
-        private string GetLicensedPartName(ComposablePart part)
-        {
-            // Check if part has a licensing attribute
-            var attribute = part.PartType
-                .GetCustomAttributes(true)
-                .SingleOrDefault(x => x is LicensedPartAttribute) as LicensedPartAttribute;
-
-            return attribute?.LicensedPartName;
         }
     }
 }

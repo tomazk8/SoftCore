@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Newtonsoft.Json.Linq;
+using NUnit.Framework;
 using SoftCore.Composition;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace SoftCore.Licensing.UnitTests
     public class LicensingTests
     {
         [Test]
-        public void TestLicensing()
+        public void TestLicensingWithLicence()
         {
             Licence licence = new Licence(new List<LicensedPart>()
             {
@@ -22,19 +23,19 @@ namespace SoftCore.Licensing.UnitTests
                 typeof(ClassB),
                 typeof(ClassC));
 
-            SoftCoreLicensing licensing = new SoftCoreLicensing(licence);
-            var filterCatalog = licensing.CreateFilterCatalog(catalog);
+            LicensingCatalog licensingCatalog = new LicensingCatalog(catalog, licence);
 
             Assert.IsTrue(catalog.Parts.Any(x => x.PartType == typeof(ClassB)));
             // Filter catalog must contain the licensed part because of the license
-            Assert.IsTrue(filterCatalog.Parts.Any(x => x.PartType == typeof(ClassB)));
+            Assert.IsTrue(licensingCatalog.Parts.Any(x => x.PartType == typeof(ClassB)));
 
-            CompositeApplication compositeApplication = new CompositeApplication(filterCatalog);
+            CompositeApplication compositeApplication = new CompositeApplication(licensingCatalog);
             ClassA classA = compositeApplication.GetExportedValue<ClassA>();
 
             // ClassB must not be null as it is licensed.
             Assert.IsNotNull(classA.ClassB);
         }
+
         [Test]
         public void TestLicensingWithoutLicence()
         {
@@ -47,20 +48,48 @@ namespace SoftCore.Licensing.UnitTests
                 typeof(ClassB),
                 typeof(ClassC));
 
-            SoftCoreLicensing licensing = new SoftCoreLicensing(licence);
-            var filterCatalog = licensing.CreateFilterCatalog(catalog);
+            LicensingCatalog licensingCatalog = new LicensingCatalog(catalog, licence);
 
             Assert.IsTrue(catalog.Parts.Any(x => x.PartType == typeof(ClassB)));
             // ClassB must not be presend because of the missing part in the licence
-            Assert.IsFalse(filterCatalog.Parts.Any(x => x.PartType == typeof(ClassB)));
+            Assert.IsFalse(licensingCatalog.Parts.Any(x => x.PartType == typeof(ClassB)));
 
-            CompositeApplication compositeApplication = new CompositeApplication(filterCatalog);
-            licensing.AssignCompositeApplication(compositeApplication);
+            CompositeApplication compositeApplication = new CompositeApplication(licensingCatalog);
 
             ClassA classA = compositeApplication.GetExportedValue<ClassA>();
 
             // ClassB must be null in this case
             Assert.IsNull(classA.ClassB);
+        }
+
+        [Test]
+        public void TestLicenceParameter()
+        {
+            LicenceParams licenceParams = new LicenceParams
+            {
+                MaxInstances = 123,
+                Name = "Test"
+            };
+
+            Licence licence = new Licence(new List<LicensedPart>()
+            {
+                new LicensedPart("ClassB", JObject.FromObject(licenceParams))
+            });
+
+            TypeCatalog catalog = new TypeCatalog(
+                typeof(ClassA),
+                typeof(ClassB),
+                typeof(ClassC));
+
+            LicensingCatalog licensingCatalog = new LicensingCatalog(catalog, licence);
+
+            CompositeApplication compositeApplication = new CompositeApplication(licensingCatalog);
+            SoftCoreLicensing softCoreLicensing = new SoftCoreLicensing(compositeApplication, licence);
+
+            ClassA classA = compositeApplication.GetExportedValue<ClassA>();
+            Assert.IsNotNull(classA.ClassB.LicenceParams);
+            Assert.AreEqual(classA.ClassB.LicenceParams.MaxInstances, 123);
+            Assert.AreEqual(classA.ClassB.LicenceParams.Name, "Test");
         }
 
         #region Classes
@@ -84,12 +113,15 @@ namespace SoftCore.Licensing.UnitTests
         {
             [Import]
             private ClassC classC;
+            [ImportLicenceParameters]
+            private LicenceParams licenceParams;
 
             private ClassB()
             {
             }
 
             public ClassC ClassC => classC;
+            public LicenceParams LicenceParams => licenceParams;
         }
 
         [Export]
@@ -98,6 +130,12 @@ namespace SoftCore.Licensing.UnitTests
             private ClassC()
             {
             }
+        }
+
+        public class LicenceParams
+        {
+            public int MaxInstances { get; set; }
+            public string Name { get; set; }
         }
         #endregion
     }

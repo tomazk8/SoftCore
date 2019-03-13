@@ -27,6 +27,11 @@ namespace SoftCore.Licensing
         {
             this.LicensedPartName = licensedPartName;
         }
+        public LicensedPart(string licensedPartName, JObject parameters)
+        {
+            this.LicensedPartName = licensedPartName;
+            this.Parameters = parameters;
+        }
 
         public string LicensedPartName { get; private set; }
         public JObject Parameters { get; private set; }

@@ -11,29 +11,27 @@ namespace SoftCore.Licensing
     {
         private Licence licence;
         private CompositeApplication compositeApplication;
-        // TODO: optimize by caching licensed parts
-        //private List<ComposablePart> licensedParts = new List<ComposablePart>();
-
-        public SoftCoreLicensing(Licence licence)
+        
+        public SoftCoreLicensing(CompositeApplication compositeApplication, Licence licence)
         {
+            this.compositeApplication = compositeApplication;
+
+            compositeApplication.SatisfyingImports += CompositeApplication_SatisfyingImports;
+
             if (licence == null)
                 throw new ArgumentNullException(nameof(licence));
 
             this.licence = licence;
         }
 
-        /// <summary>
-        /// There are two steps to fully initialize the licensing system. First is to create a catalog using
-        /// a method. This catalog will filter out unlicensed parts. The second step is to assign composite
-        /// application to this class. This will enable setting the license parameters in the perts that
-        /// import them.
-        /// </summary>
-        /// <param name="compositeApplication"></param>
-        public void AssignCompositeApplication(CompositeApplication compositeApplication)
+        internal static string GetLicensedPartName(ComposablePart part)
         {
-            this.compositeApplication = compositeApplication;
+            // Check if part has a licensing attribute
+            var attribute = part.PartType
+                .GetCustomAttributes(true)
+                .SingleOrDefault(x => x is LicensedPartAttribute) as LicensedPartAttribute;
 
-            compositeApplication.SatisfyingImports += CompositeApplication_SatisfyingImports;
+            return attribute?.LicensedPartName;
         }
 
         private void CompositeApplication_SatisfyingImports(object sender, SatisfyingImportsEventArgs e)
