@@ -29,6 +29,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Licensing", "SoftC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftCore.Licensing.UnitTests", "Testing\SoftCore.Licensing.UnitTests\SoftCore.Licensing.UnitTests.csproj", "{0144D39B-F4D6-4B56-ABCD-43F498278B52}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{E63AEC12-5385-498B-910F-D4FC5B81E7D4}"
+	ProjectSection(SolutionItems) = preProject
+		NuGet\SoftCore.png = NuGet\SoftCore.png
+		NuGet\SoftCore.xml = NuGet\SoftCore.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
