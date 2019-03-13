@@ -1,0 +1,50 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <!-- The identifier that must be unique within the hosting gallery -->
+    <id>SoftCore</id>
+
+    <!-- The package version number that is used when resolving dependencies -->
+    <version>1.0.0</version>
+
+    <!-- Authors contain text that appears directly on the gallery -->
+    <authors>Tomaz Koritnik</authors>
+
+    <!-- 
+            Owners are typically nuget.org identities that allow gallery
+            users to easily find other packages by the same owners.  
+        -->
+    <owners>tomazk</owners>
+
+    <!-- Project URL provides a link for the gallery -->
+    <projectUrl>https://github.com/tomazk8/SoftCore</projectUrl>
+
+    <!-- License information is displayed on the gallery -->
+    <license type="expression">MIT</license>
+
+
+    <!-- The icon is used in Visual Studio's package manager UI -->
+    <iconUrl>https://github.com/tomazk8/SoftCore/NuGet/SoftCore.png</iconUrl>
+
+    <!-- 
+            If true, this value prompts the user to accept the license when
+            installing the package. 
+        -->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+    <!-- Any details about this particular release -->
+    <releaseNotes>First version</releaseNotes>
+
+    <!-- 
+            The description can be used in package manager UI. Note that the
+            nuget.org gallery uses information you add in the portal. 
+        -->
+    <description>Library helps create composite modular applications and is using DI and DI container in it's core.</description>
+
+    <!-- Copyright information -->
+    <copyright>Copyright ©2019 Tomaz Koritnik</copyright>
+
+    <!-- Tags appear in the gallery and can be used for tag searches -->
+    <tags>ioc architecture composition</tags>
+  </metadata>
+</package>
