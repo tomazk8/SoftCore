@@ -19,6 +19,22 @@ namespace SoftCore.Composition
             {
                 if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<>)))
                     type = type.GenericTypeArguments.Single();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,,,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,,,,,>)))
+                    type = type.GenericTypeArguments.First();
+                else if (type.GetGenericTypeDefinition().Equals(typeof(ExportFactory<,,,,,,,,>)))
+                    type = type.GenericTypeArguments.First();
                 else if (type.GetGenericTypeDefinition().Equals(typeof(Lazy<>)))
                     type = type.GenericTypeArguments.Single();
             }

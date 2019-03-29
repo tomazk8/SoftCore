@@ -41,7 +41,7 @@ namespace SoftCore.UnitTests.CompositionTests
             {
             }
         }
-        [Export(typeof(ExportB))]
+        [Export]
         [NotShared]
         public class ExportB
         {
@@ -70,7 +70,7 @@ namespace SoftCore.UnitTests.CompositionTests
         {
             [Import]
             private ExportFactory<ExportA> exportAFactory;
-            [Import(typeof(ExportB))]
+            [Import]
             private ExportFactory<ExportB, string> exportBFactory;
             [Import("MyExport")]
             private ExportFactory<ExportC, string, int> exportCFactory;
