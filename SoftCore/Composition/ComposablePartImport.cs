@@ -8,7 +8,7 @@ namespace SoftCore.Composition
 {
     public class ComposablePartImport
     {
-        internal ComposablePartImport(Attribute attribute, Type compositePartType, FieldInfo importingFieldInfo)
+        internal ComposablePartImport(Attribute attribute, FieldInfo importingFieldInfo)
         {
             this.FieldInfo = importingFieldInfo;
 

@@ -102,29 +102,36 @@ namespace SoftCore.Composition
             var typeInfo = partType.GetTypeInfo();
             List<ComposablePartImport> list = new List<ComposablePartImport>();
 
-            // Find all fields with Import attribute
-            var fields = partType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+            Type type = partType;
 
-            if (fields != null)
+            while (type != null)
             {
-                foreach (var field in fields)
+                // Find all fields with Import attribute
+                var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (fields != null)
                 {
-                    // Import attribute
+                    foreach (var field in fields)
                     {
-                        var attribute = field.GetCustomAttribute<ImportAttribute>();
+                        // Import attribute
+                        {
+                            var attribute = field.GetCustomAttribute<ImportAttribute>();
 
-                        if (attribute != null)
-                            list.Add(new ComposablePartImport(attribute, partType, field));
-                    }
+                            if (attribute != null)
+                                list.Add(new ComposablePartImport(attribute, field));
+                        }
 
-                    // ImportMany attribute
-                    {
-                        var attribute = field.GetCustomAttribute<ImportManyAttribute>();
+                        // ImportMany attribute
+                        {
+                            var attribute = field.GetCustomAttribute<ImportManyAttribute>();
 
-                        if (attribute != null)
-                            list.Add(new ComposablePartImport(attribute, partType, field));
+                            if (attribute != null)
+                                list.Add(new ComposablePartImport(attribute, field));
+                        }
                     }
                 }
+
+                type = type.BaseType;
             }
 
             return list;
