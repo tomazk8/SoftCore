@@ -9,22 +9,23 @@
 + IEntryPoint
 + Constructor parameter injection - only over ExportFactory
 + Add ExportType property to ExportFactory, so when importing a list of base classes, importer can differentiate between types.
-+ AOP (interception on interfaces using proxy)
+AOP (interception on interfaces using proxy)
+	+ Infrastructure
 	Access control
 	logging
 	recording
-Export structure for diagram
 + Load-time measurement
 Pre runtime checks
 	+ Exports found for imports
-	UI WPF controls must not be shared - not possible in WPF-independant version
+	UI WPF controls must not be shared - not possible in WPF-independant version.
 	check referenced assemblies
 	+ ExportFactory only used on NotShared parts
 	+ parts must have only one private constructor
-	prevent cyclic importing (cyclick dependency)
+	+ prevent cyclic importing (cyclic dependency)
+	+ If class has parametered constructor, check that ExportFactory is used and that ExportFactory parameters match
 + .NET standard
 Areas, (contexts)
-Shutdown event - parts can cleanup when application or area is shut down.
+Shutdown event - parts can cleanup when application or area is shut down. Maybe IDisposable could be used for this and would be called at the end when application stops.
 Performance profiling
 	Measure part processing time
 	+ Measure part init time
@@ -48,4 +49,4 @@ Background part creaation - singletons only. Creates parts before they are used.
 Disposable parts?
 Manual wiring?
 Export all types in an inheritance tree along with all implemented interfaces
-Limit added features only to some customers. This would be to test new functionality at limited customers. This could be part of 
+Limit added features only to some customers. This would be to test new functionality at limited customers.

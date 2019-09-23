@@ -224,21 +224,22 @@ namespace SoftCore.Composition
                                 .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
                                 .SingleOrDefault();
 
-                            int constructorArgumentCount = 0;
-                            IEnumerable<Type> constructorArguments = null;
+                            int argumentCount = 0;
+                            IEnumerable<Type> arguments = null;
 
                             if (constructor != null)
                             {
-                                constructorArguments = constructor
-                                    .GetParameters()
-                                    .Select(x => x.ParameterType);
-                                constructorArgumentCount = constructorArguments.Count();
+                                arguments = import.FieldInfo.FieldType
+                                    .GetGenericArguments()
+                                    .Skip(1) // Skip the first type because it's the type of the import, not type of parameter
+                                    .ToArray();
+                                argumentCount = arguments.Count();
                             }
 
                             Type exportType;
 
                             // Support for parameterized constructors
-                            switch (constructorArgumentCount)
+                            switch (argumentCount)
                             {
                                 case 0:
                                     exportType = typeof(ExportFactory<>);
@@ -273,8 +274,8 @@ namespace SoftCore.Composition
 
                             Type[] genericTypeArguments;
 
-                            if (constructorArguments != null)
-                                genericTypeArguments = (new Type[] { import.ImportType }).Concat(constructorArguments).ToArray();
+                            if (arguments != null)
+                                genericTypeArguments = (new Type[] { import.ImportType }).Concat(arguments).ToArray();
                             else
                                 genericTypeArguments = new Type[1] { import.ImportType };
 

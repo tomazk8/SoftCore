@@ -50,5 +50,16 @@ namespace SoftCore.Composition
                 return new InstanceInfo(instance, isNewInstance);
             }
         }
+
+        /// <summary>
+        /// Creates an instance of this class imidiatelly and not when it will be required.
+        /// </summary>
+        public void CreateAndCacheInstance()
+        {
+            lock (this)
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

@@ -68,6 +68,8 @@ namespace SoftCore.Interception
                 invocation.Method, invocation.ReturnValue, invocation.TargetType);
 
             compositeApplicationInterceptor.OnCallIntercepted(memberInvocation);
+
+            invocation.Proceed();
         }
     }
 

@@ -32,6 +32,43 @@ namespace SoftCore.UnitTests.CompositionTests
             Assert.AreEqual(exportC.Age, 27);
         }
 
+        [Test]
+        public void TestIfNumberOfConstructorParameterCountMatch()
+        {
+            TypeCatalog catalog = new TypeCatalog(
+                typeof(ExportC),
+                typeof(FactoryImporterWithInvalidParameterCount));
+
+            Assert.Catch(new TestDelegate(() =>
+            {
+                CompositeApplication composer = new CompositeApplication(catalog);
+            }));
+        }
+        [Test]
+        public void TestIfConstructorParameterTypeMatches()
+        {
+            TypeCatalog catalog = new TypeCatalog(
+                typeof(ExportC),
+                typeof(FactoryImporterWithInvalidParameterType));
+
+            Assert.Catch(new TestDelegate(() =>
+            {
+                CompositeApplication composer = new CompositeApplication(catalog);
+            }));
+        }
+        [Test]
+        public void TestThatExportFactoryIsUsedWithConstructorParameters()
+        {
+            TypeCatalog catalog = new TypeCatalog(
+                typeof(ExportC),
+                typeof(FactoryImporterWithMissingExportFactory));
+
+            Assert.Catch(new TestDelegate(() =>
+            {
+                CompositeApplication composer = new CompositeApplication(catalog);
+            }));
+        }
+
         #region Classes
         [Export]
         [NotShared]
@@ -82,6 +119,42 @@ namespace SoftCore.UnitTests.CompositionTests
             public ExportFactory<ExportA> ExportAFactory => exportAFactory;
             public ExportFactory<ExportB, string> ExportBFactory => exportBFactory;
             public ExportFactory<ExportC, string, int> ExportCFactory => exportCFactory;
+        }
+        [Export]
+        public class FactoryImporterWithInvalidParameterCount
+        {
+            [Import("MyExport")]
+            private ExportFactory<ExportC, string> exportCFactory;
+
+            private FactoryImporterWithInvalidParameterCount()
+            {
+            }
+
+            public ExportFactory<ExportC, string> ExportCFactory => exportCFactory;
+        }
+        [Export]
+        public class FactoryImporterWithInvalidParameterType
+        {
+            [Import("MyExport")]
+            private ExportFactory<ExportC, string, string> exportCFactory;
+
+            private FactoryImporterWithInvalidParameterType()
+            {
+            }
+
+            public ExportFactory<ExportC, string, string> ExportCFactory => exportCFactory;
+        }
+        [Export]
+        public class FactoryImporterWithMissingExportFactory
+        {
+            [Import("MyExport")]
+            private ExportC exportC;
+
+            private FactoryImporterWithMissingExportFactory()
+            {
+            }
+
+            public ExportC ExportC => exportC;
         }
         #endregion
     }
