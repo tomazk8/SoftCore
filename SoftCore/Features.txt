@@ -11,9 +11,9 @@
 + Add ExportType property to ExportFactory, so when importing a list of base classes, importer can differentiate between types.
 AOP (interception on interfaces using proxy)
 	+ Infrastructure
-	Access control
-	logging
-	recording
+	+ Access control (example as unit test)
+	+ logging/recording (example as unit test)
+	Make automatic unit tests based on recorded data
 + Load-time measurement
 Pre runtime checks
 	+ Exports found for imports
@@ -32,20 +32,18 @@ Performance profiling
 Testing
 	+ ReplacementPart
 	ImportOriginal from replacement export
-Activity recording
-Make automatic unit tests based on recorded data
 Typed exceptions should be thrown, not generic ones. Or maybe at least one typed exception for whole library, i.e. CompositionException.
 Licensing
 	+ LicencedExport or normal export with i.e. LicensedPart attribute? A new catalog is also needed to perform filtering.
 	+ Licence parameters. Part will in some way get these parameters. The best way is probably to inject them into the field.
-Statistics
-	Call event when part is taken from catalog
-	Call event when part init starts and when it ends
+Events
+	Event when part is retrived from catalog
+	Event when part init starts and when it ends
 + Interface bridging
 Other lifestyles
 	Context (Web request, thread,...)
-Auto multi threading and horizontal scaling or parts. Make copies, one per Thread. Do load balancing.
-Background part creaation - singletons only. Creates parts before they are used.
+Auto multi threading and horizontal scaling of parts. Make copies, one per Thread. Do load balancing.
+Background part creation - singletons only. Creates parts before they are used.
 Disposable parts?
 Manual wiring?
 Export all types in an inheritance tree along with all implemented interfaces
